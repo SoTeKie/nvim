@@ -265,12 +265,20 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- Easier way to open netrw :)
 vim.keymap.set('n', '<leader>fe', ':e %:p:h <CR>')
 
--- Remaps and commands for easier terminal mode/splits
+-- Enter normal mode in terminal
 vim.keymap.set('t', '<C-space>', '<C-\\><C-n>', { silent = true })
+
+-- Move between splits
 vim.keymap.set({ 'n', 'i', 'v' }, '<C-Left>', '<C-w>h', { silent = true })
 vim.keymap.set({ 'n', 'i', 'v' }, '<C-Down>', '<C-w>j', { silent = true })
 vim.keymap.set({ 'n', 'i', 'v' }, '<C-Up>', '<C-w>k', { silent = true })
 vim.keymap.set({ 'n', 'i', 'v' }, '<C-Right>', '<C-w>l', { silent = true })
+
+-- Resize splits
+vim.keymap.set({ 'n', 'i', 'v' }, '<C-S-Left>', '10<C-w>>', { silent = true })
+vim.keymap.set({ 'n', 'i', 'v' }, '<C-S-Down>', '10<C-w>-', { silent = true })
+vim.keymap.set({ 'n', 'i', 'v' }, '<C-S-Up>', '10<C-w>+', { silent = true })
+vim.keymap.set({ 'n', 'i', 'v' }, '<C-S-Right>', '10<C-w><', { silent = true })
 
 -- Useful commands for opening terminals in splits
 vim.api.nvim_create_user_command('Vst', ':vs term://bash', {})
