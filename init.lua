@@ -247,6 +247,11 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+-- I just prefer stuff to open in this direction
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
+
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
@@ -259,6 +264,24 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 -- Easier way to open netrw :)
 vim.keymap.set('n', '<leader>fe', ':e %:p:h <CR>')
+
+-- Remaps and commands for easier terminal mode/splits
+vim.keymap.set('t', '<C-space>', '<C-\\><C-n>', { silent = true })
+vim.keymap.set({ 'n', 'i', 'v' }, '<C-Left>', '<C-w>h', { silent = true })
+vim.keymap.set({ 'n', 'i', 'v' }, '<C-Down>', '<C-w>j', { silent = true })
+vim.keymap.set({ 'n', 'i', 'v' }, '<C-Up>', '<C-w>k', { silent = true })
+vim.keymap.set({ 'n', 'i', 'v' }, '<C-Right>', '<C-w>l', { silent = true })
+
+-- Useful commands for opening terminals in splits
+vim.api.nvim_create_user_command('Vst', ':vs term://bash', {})
+vim.api.nvim_create_user_command('Spt', ':sp term://bash', {})
+
+ -- We usually want to start the terminal in insert mode
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function()
+    vim.cmd "startinsert!"
+  end,
+})
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
