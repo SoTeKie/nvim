@@ -114,15 +114,13 @@ require('lazy').setup({
       end,
     },
   },
-  -- Cool forest theme
+  -- Cool theme
   {
-  'sainnhe/everforest',
+    'projekt0n/github-nvim-theme',
     priority = 1000,
+    lazy = false,
     config = function()
-      vim.o.background = 'dark'
-      vim.g.everforest_background = 'hard'
-      vim.g.everforest_better_performance = 1
-      vim.cmd.colorscheme 'everforest'
+      vim.cmd.colorscheme 'github_dark_default'
     end
   },
   {
