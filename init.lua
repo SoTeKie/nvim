@@ -116,10 +116,13 @@ require('lazy').setup({
   },
   -- Cool forest theme
   {
-  'folke/tokyonight.nvim',
+  'sainnhe/everforest',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.o.background = 'dark'
+      vim.g.everforest_background = 'hard'
+      vim.g.everforest_better_performance = 1
+      vim.cmd.colorscheme 'everforest'
     end
   },
   {
@@ -261,6 +264,10 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- Remap for half page scrolling :p
+vim.keymap.set('n', '<PageUp>', '<C-u>zz', { noremap = true, silent = true })
+vim.keymap.set('n', '<PageDown>', '<C-d>zz', {  noremap = true, silent = true })
 
 -- Easier way to open netrw :)
 vim.keymap.set('n', '<leader>fe', ':e %:p:h <CR>')
