@@ -21,9 +21,7 @@ vim.opt.splitbelow = true
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
-vim.opt.cursorline = true
 vim.opt.scrolloff = 10
-
 
 -- [[ Keymaps ]]
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -33,8 +31,8 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open float
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 vim.keymap.set('n', '<PageUp>', '<C-u>zz', { noremap = true, silent = true })
-vim.keymap.set('n', '<PageDown>', '<C-d>zz', {  noremap = true, silent = true })
--- vim.keymap.set('n', '<leader>fe', ':e %:p:h <CR>')
+vim.keymap.set('n', '<PageDown>', '<C-d>zz', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>se', ':e %:p:h <CR>')
 
 vim.keymap.set({ 'n', 'i', 'v' }, '<C-Left>', '<C-w>h')
 vim.keymap.set({ 'n', 'i', 'v' }, '<C-Down>', '<C-w>j')
@@ -65,9 +63,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 vim.api.nvim_create_user_command('Vst', ':vs term://bash', {})
 vim.api.nvim_create_user_command('Spt', ':sp term://bash', {})
-vim.api.nvim_create_autocmd("TermOpen", {
+vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()
-    vim.cmd "startinsert!"
+    vim.cmd 'startinsert!'
   end,
 })
 
@@ -103,7 +101,7 @@ require('lazy').setup({
     lazy = false,
     config = function()
       vim.cmd.colorscheme 'github_dark_default'
-    end
+    end,
   },
   {
     'folke/which-key.nvim',
@@ -206,7 +204,6 @@ require('lazy').setup({
           prompt_title = 'Live Grep in Open Files',
         }
       end, { desc = '[S]earch [/] in Open Files' })
-
 
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
@@ -319,16 +316,15 @@ require('lazy').setup({
         },
       }
 
-      require('lspconfig').gleam.setup({
-        cmd = { "gleam", "lsp" },
-        filetypes = { "gleam" },
+      require('lspconfig').gleam.setup {
+        cmd = { 'gleam', 'lsp' },
+        filetypes = { 'gleam' },
         capabilities = capabilities,
-      })
-
+      }
     end,
   },
 
-  { -- Autoformat
+  {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
@@ -375,8 +371,7 @@ require('lazy').setup({
           end
           return 'make install_jsregexp'
         end)(),
-        dependencies = {
-        },
+        dependencies = {},
       },
       'saadparwaiz1/cmp_luasnip',
 
@@ -448,7 +443,24 @@ require('lazy').setup({
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs',
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'elixir', 'eex', 'heex', 'html', 'gleam'},
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'elixir',
+        'eex',
+        'heex',
+        'html',
+        'gleam',
+      },
       auto_install = true,
       highlight = {
         enable = true,
@@ -459,8 +471,6 @@ require('lazy').setup({
   },
 }, {
   ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',
