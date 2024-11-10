@@ -22,6 +22,10 @@ vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 vim.opt.scrolloff = 10
+vim.opt.tabstop = 8
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 
 -- [[ Keymaps ]]
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -82,7 +86,6 @@ vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure and install plugins ]]
 require('lazy').setup({
-  'tpope/vim-sleuth',
   {
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -102,54 +105,6 @@ require('lazy').setup({
     config = function()
       vim.cmd.colorscheme 'github_dark_default'
     end,
-  },
-  {
-    'folke/which-key.nvim',
-    event = 'VimEnter',
-    opts = {
-      icons = {
-        mappings = vim.g.have_nerd_font,
-        keys = vim.g.have_nerd_font and {} or {
-          Up = '<Up> ',
-          Down = '<Down> ',
-          Left = '<Left> ',
-          Right = '<Right> ',
-          C = '<C-…> ',
-          M = '<M-…> ',
-          D = '<D-…> ',
-          S = '<S-…> ',
-          CR = '<CR> ',
-          Esc = '<Esc> ',
-          ScrollWheelDown = '<ScrollWheelDown> ',
-          ScrollWheelUp = '<ScrollWheelUp> ',
-          NL = '<NL> ',
-          BS = '<BS> ',
-          Space = '<Space> ',
-          Tab = '<Tab> ',
-          F1 = '<F1>',
-          F2 = '<F2>',
-          F3 = '<F3>',
-          F4 = '<F4>',
-          F5 = '<F5>',
-          F6 = '<F6>',
-          F7 = '<F7>',
-          F8 = '<F8>',
-          F9 = '<F9>',
-          F10 = '<F10>',
-          F11 = '<F11>',
-          F12 = '<F12>',
-        },
-      },
-      spec = {
-        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-        { '<leader>d', group = '[D]ocument' },
-        { '<leader>r', group = '[R]ename' },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>w', group = '[W]orkspace' },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-      },
-    },
   },
   {
     'nvim-telescope/telescope.nvim',
@@ -340,19 +295,6 @@ require('lazy').setup({
     },
     opts = {
       notify_on_error = false,
-      format_on_save = function(bufnr)
-        local disable_filetypes = { c = true, cpp = true }
-        local lsp_format_opt
-        if disable_filetypes[vim.bo[bufnr].filetype] then
-          lsp_format_opt = 'never'
-        else
-          lsp_format_opt = 'fallback'
-        end
-        return {
-          timeout_ms = 500,
-          lsp_format = lsp_format_opt,
-        }
-      end,
       formatters_by_ft = {
         lua = { 'stylua' },
       },
@@ -396,7 +338,7 @@ require('lazy').setup({
           ['<C-p>'] = cmp.mapping.select_prev_item(),
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<CR>'] = cmp.mapping.confirm { select = true },
 
           ['<C-Space>'] = cmp.mapping.complete {},
           ['<C-l>'] = cmp.mapping(function()
@@ -422,13 +364,9 @@ require('lazy').setup({
       }
     end,
   },
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
-  {
+ {
     'echasnovski/mini.nvim',
     config = function()
-      require('mini.ai').setup { n_lines = 500 }
-      require('mini.surround').setup()
       local statusline = require 'mini.statusline'
       statusline.setup { use_icons = vim.g.have_nerd_font }
 
@@ -437,7 +375,7 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
     end,
-  },
+    },
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
